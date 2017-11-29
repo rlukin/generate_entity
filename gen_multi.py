@@ -2,17 +2,19 @@ import dictionary as dct
 import numpy as np
 
 import multiprocessing
+import sys
+
 
 def worker():
     current = multiprocessing.current_process()
     np.random.seed(int(current.pid))
-    count = 1000
+    count = 32768
     for i in range(11375):
-        postcode = np.random.random_integers(10000,99999, count)
-        phonenumber = np.random.random_integers(1000000000,9999999999, count)
+        postcode = np.random.random_integers(10000, 99999, count)
+        phonenumber = np.random.random_integers(1000000000, 9999999999, count)
 
-        ip_first_octet = np.random.random_integers(1,255, count)
-        ip_octet = np.random.random_integers(0,255, count)
+        ip_first_octet = np.random.random_integers(1, 255, count)
+        ip_octet = np.random.random_integers(0, 255, count)
         ip_first_octet = map(str, ip_first_octet)
         ip_octet = map(str, ip_octet)
         ip = np.core.defchararray.add(ip_first_octet, '.')
@@ -27,28 +29,29 @@ def worker():
         np.random.shuffle(ip_octet)
         ip = np.core.defchararray.add(ip, ip_octet)
 
-        city_prefix =  np.random.choice(dct.city_prefixes, count)
-        city_suffix =  np.random.choice(dct.city_suffixes, count)
+        city_prefix = np.random.choice(dct.city_prefixes, count)
+        city_suffix = np.random.choice(dct.city_suffixes, count)
         city = np.core.defchararray.add(city_prefix, ' ')
         city = np.core.defchararray.add(city, city_suffix)
 
-        building = np.random.random_integers(1,10000, count)
-        street =  np.random.choice(dct.street_suffixes, count)
-        address =  np.core.defchararray.add(street, ' ')
-        address =  np.core.defchararray.add(address, map(str,building))
+        building = np.random.random_integers(1, 10000, count)
+        street = np.random.choice(dct.street_suffixes, count)
+        address = np.core.defchararray.add(street, ' ')
+        address = np.core.defchararray.add(address, map(str, building))
 
-        state =  np.random.choice(dct.states, count)
+        state = np.random.choice(dct.states, count)
 
-        company_1 =  np.random.choice(dct.catch_phrase_words, count)
-        company_2 =  np.random.choice(dct.bsWords, count)
-        company_3 =  np.random.choice(dct.company_suffixes, count)
+        company_1 = np.random.choice(dct.catch_phrase_words, count)
+        company_2 = np.random.choice(dct.bsWords, count)
+        company_3 = np.random.choice(dct.company_suffixes, count)
         company = np.core.defchararray.add(company_1, ' ')
         company = np.core.defchararray.add(company, company_2)
         company = np.core.defchararray.add(company, ' ')
         company = np.core.defchararray.add(company, company_3)
 
         creditcard_prefix = np.random.choice(dct.prefix_maestro, count)
-        creditcard_number = np.random.random_integers(100000000000,999999999999, count)
+        creditcard_number = np.random.random_integers(100000000000,
+                                                      999999999990, count)
         creditcard = np.core.defchararray.add(creditcard_prefix, map(str, creditcard_number))
 
         job = np.random.choice(dct.jobs, count)
@@ -57,8 +60,8 @@ def worker():
         last_name = np.random.choice(dct.last_names, count)
         full_name = np.core.defchararray.add(name, last_name)
 
-        full_name_space =np.core.defchararray.add(name, ' ')
-        full_name_space =np.core.defchararray.add(full_name_space, last_name)
+        full_name_space = np.core.defchararray.add(name, ' ')
+        full_name_space = np.core.defchararray.add(full_name_space, last_name)
 
         email_domain = np.random.choice(dct.free_email_domains, count)
         email = np.core.defchararray.add(full_name, '@')
@@ -78,13 +81,23 @@ def worker():
 
         a = np.dstack([full_name_space, ip, email, state, postcode, city, street, phonenumber, company, department, job, creditcard, eye_color, car, university])
 
+        b = ''
+        i = 0
+
         for x in a[0]:
-			print ','.join(x)
+            b += ','.join(x) + '\n'
+            i += 1
+            if i > int(sys.argv[1]):
+                print b
+                i = 0
+                b = ''
+
+        print b
     return
 
 if __name__ == '__main__':
     jobs = []
-    for i in range(4):
+    for i in range(8):
         p = multiprocessing.Process(target=worker)
         jobs.append(p)
         p.start()
