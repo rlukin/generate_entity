@@ -5,7 +5,7 @@ import csv
 count = 1000000
 with open('output', 'wb') as csvfile:
     for i in range(5):
-        writer= csv.writer(csvfile, delimiter=',')
+        writer = csv.writer(csvfile, delimiter=',')
         postcode = np.random.random_integers(10000,99999, count)
         phonenumber = np.random.random_integers(1000000000,9999999999, count)
 
