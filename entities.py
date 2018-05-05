@@ -13,17 +13,15 @@ def generate_entities(count):
 
 
 def ip(count):
-        ip_first_octet = np.random.random_integers(1, 255, count)
-        ip_octet = np.random.random_integers(0, 255, count)
-        ip_first_octet = map(str, ip_first_octet)
+        ip_octet = np.random.random_integers(1, 255, count)
         ip_octet = map(str, ip_octet)
-        ip = np.core.defchararray.add(ip_first_octet, '.')
-        ip = np.core.defchararray.add(ip, ip_octet)
-        ip_dot = np.core.defchararray.add(ip, '.')
-        np.random.shuffle(ip_dot)
-        ip = np.core.defchararray.add(ip, ip_dot)
-        np.random.shuffle(ip_dot)
-        ip = np.core.defchararray.add(ip, ip_dot)
+
+        ip = np.core.defchararray.add(ip_octet, '.')
+        for i in range(2):
+            np.random.shuffle(ip_octet)
+            ip = np.core.defchararray.add(ip, ip_octet)
+            ip = np.core.defchararray.add(ip, '.')
+
         np.random.shuffle(ip_octet)
         return np.core.defchararray.add(ip, ip_octet)
 

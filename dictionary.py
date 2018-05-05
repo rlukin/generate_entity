@@ -126,7 +126,7 @@ bsWords = (
 
 company_suffixes = ('Inc', 'and Sons', 'LLC', 'Group', 'PLC', 'Ltd')
 
-prefix_maestro = ['5018', '5020', '5038', '5612', '5893', '6304', '6759', '6761', '6762', '6763', '0604', '6390']
+prefix_maestro = ('5018', '5020', '5038', '5612', '5893', '6304', '6759', '6761', '6762', '6763', '0604', '6390')
 free_email_domains = ('gmail.com', 'yahoo.com', 'hotmail.com')
 
 jobs = (
