@@ -36,8 +36,8 @@ if __name__ == '__main__':
     # one record ~320 bytes
     argv = int(sys.argv[1])
     if argv > 67:
-        cycles = argv/67
         workers_amount = multiprocessing.cpu_count()
+        cycles = int(1024*1024*argv/float(320*count)/workers_amount)
     else:
         cycles = workers_amount = 1
         count = int(1024*1024*argv/float(320)) + 1
