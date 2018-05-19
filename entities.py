@@ -72,7 +72,7 @@ def name_and_email(count):
         name = np.random.choice(dct.first_names, count)
         last_name = np.random.choice(dct.last_names, count)
         full_name = np.core.defchararray.add(name, last_name)
-        name_with_spaces = np.core.defchararray.add(full_name, ' ')
+        name_with_spaces = np.core.defchararray.add(name, ' ')
 
         email_domain = np.random.choice(dct.free_email_domains, count)
         email = np.core.defchararray.add(full_name, '@')
